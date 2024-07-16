@@ -1,7 +1,13 @@
 node_modules
 npm-debug.log
 yarn-error.log
+
+#環境設定
 .env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
 # Hardhat files
 /cache
@@ -21,6 +27,23 @@ ignition/deployments/chain-31337
 # ビルド出力
 dist/
 build/
+artifacts/
 
 # ログファイル
 *.log
+
+# OSやエディタ関連のファイル
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Hardhat Ignition default folder for deployments against a local node
+ignition/deployments/chain-31337
+
+# 追加する不要なファイルやディレクトリ
+4.5.0
+ignition/deployments/chain-80002
+ignition/modules
+ignition/deployments/chain-80002/artifacts
+ignition/deployments/chain-80002/build-info
