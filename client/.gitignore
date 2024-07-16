@@ -8,8 +8,6 @@
 # testing
 /coverage
 
-# production
-/build
 
 # misc
 .DS_Store
@@ -24,7 +22,6 @@ yarn-error.log*
 
 # ビルド出力
 dist/
-build/
 artifacts/
 
 # ログファイル
