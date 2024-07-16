@@ -142,20 +142,37 @@ header{
 
 .footer-container {
   display: flex;
-  justify-content: center;
+  flex-direction: column; /* 要素を縦に並べる */
   align-items: center;
-  padding-bottom: 30px;
+  gap: 5px; /* 要素間のスペース */
 }
 
-.twitter-logo {
-  width: 35px;
-  height: 35px;
+.x-container {
+  display: flex;
+  align-items: center; /* ロゴとテキストを中央揃えにする */
+  gap: 10px; /* ロゴとテキストの間にスペースを追加 */
 }
+
+.x-logo {
+  vertical-align: middle; /* ロゴをテキストの中央に揃える */
+}
+
 
 .footer-text {
+  vertical-align: middle; /* テキストを中央に揃える */
   color: white;
   font-size: 16px;
   font-weight: bold;
+}
+
+.admin-link {
+  margin-top: 5px; /* 上にスペースを追加 */
+  color: #4CAF50; /* リンクの色を設定 */
+  text-decoration: none; /* 下線を削除 */
+}
+
+.admin-link:hover {
+  text-decoration: underline; /* ホバー時に下線を表示 */
 }
 
 .form-container{
@@ -294,4 +311,34 @@ input:focus {
   100% {
     background-position: 0% 50%;
   }
+}
+
+.admin-button-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* ボタン間のスペースを追加 */
+  align-items: center; /* ボタンを中央揃えにする */
+}
+
+.admin-button {
+  height: 45px;
+  border: 0;
+  width: auto;
+  padding-left: 40px;
+  padding-right: 40px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  background: -webkit-linear-gradient(left, #a200d6, #ff6fdf);
+  background-size: 200% 200%;
+  animation: gradient-animation 4s ease infinite;
+  margin: 20px 10px;
+  border-radius: 20px;
+  padding: 0px 2rem;
+}
+
+.admin-button:hover {
+  background-position: 100% 50%;
 }

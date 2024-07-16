@@ -6,6 +6,8 @@ import contractAbi from "./utils/contractABI.json";
 import polygonLogo from './assets/polygonlogo.png';
 import ethLogo from './assets/ethlogo.png';
 import { networks } from './utils/networks';
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import Admin from "./Admin";
 
 // 定数
 const tld = ".ninja";
@@ -22,7 +24,7 @@ const App = () => {
   const [editing, setEditing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [mints, setMints] = useState([]);
-
+  const [isOwner, setIsOwner] = useState(false); // isOwnerを定義
 
   // ネットワークが変わったらリロードします。
   function handleChainChanged(_chainId) {
@@ -388,6 +390,32 @@ const editRecord = (name) => {
     }
   }, []);
 
+  useEffect(() => {
+    console.log("Current Account:", currentAccount);
+    const checkOwner = async () => {
+      if (!currentAccount) return;
+
+      try {
+        const { ethereum } = window;
+
+        if (ethereum) {
+          const provider = new ethers.providers.Web3Provider(ethereum);
+          const signer = provider.getSigner();
+          const contract = new ethers.Contract(CONTRACT_ADDRESS, contractAbi.abi, signer);
+
+          const owner = await contract.owner();
+          console.log("Contract Owner:", owner);
+          setIsOwner(owner.toLowerCase() === currentAccount.toLowerCase());
+          console.log("Is Owner:", owner.toLowerCase() === currentAccount.toLowerCase());
+        }
+      } catch (error) {
+        console.log("Error checking owner:", error);
+      }
+    };
+
+    checkOwner();
+  }, [currentAccount]);
+
   // currentAccount, network が変わるたびに実行されます。
   useEffect(() => {
     if (network === "Polygon Amoy Testnet") {
@@ -396,6 +424,7 @@ const editRecord = (name) => {
   }, [currentAccount, network]);
 
   return (
+    <Router>
     <div className="App">
       <div className="container">
         <div className="header-container">
@@ -416,26 +445,36 @@ const editRecord = (name) => {
           </header>
         </div>
 
-        {/* ウォレットが接続されていない場合に表示 */}
-        {!currentAccount && renderNotConnectedContainer()}
-        {/* アカウントが接続されるとインプットフォームをレンダリングします。 */}
-        {currentAccount && renderInputForm()}
-        {/* ミントされたドメインを表示します。 */}
-        {currentAccount && renderMints()}
+        <Routes>
+            <Route path="/admin" element={<Admin currentAccount={currentAccount} />} />
+            <Route path="/" element={
+              <>
+                {!currentAccount && renderNotConnectedContainer()}
+                {currentAccount && renderInputForm()}
+                {currentAccount && renderMints()}
+              </>
+            } />
+        </Routes>
 
         <div className="footer-container">
-          <img alt="X Logo" className="x-logo" src={xLogo} />
-          <a
-            className="footer-text"
-            href={X_LINK}
-            target="_blank"
-            rel="noreferrer"
-          >
-            {`built with @${X_HANDLE}`}
-          </a>
+          <div className="x-container">
+            <img alt="X Logo" className="x-logo" src={xLogo} />
+            <a
+              className="footer-text"
+              href={X_LINK}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {`built with @${X_HANDLE}`}
+            </a>
+          </div>
+          {isOwner && (
+              <Link to="/admin" className="admin-link">Admin</Link>
+          )}
         </div>
       </div>
     </div>
+    </Router>
   );
 };
 
