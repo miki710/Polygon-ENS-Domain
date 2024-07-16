@@ -8,10 +8,14 @@ import "@openzeppelin/contracts/utils/Base64.sol";
 import "hardhat/console.sol";
 
 // インポートしたコントラクトを継承します。継承したコントラクトのメソッドを使用できるようになります。
-contract Domains is ERC721URIStorage {
+contract Domains3 is ERC721URIStorage {
     uint256 private _nextTokenId;
-
     string public tld;
+    address payable public owner;
+
+    // 追加: namesマッピング
+    mapping(uint => string) public names;
+
 
     // NFTのイメージ画像をSVG形式でオンチェーンに保存します。
     string svgPartOne =
@@ -21,12 +25,37 @@ contract Domains is ERC721URIStorage {
     mapping(string => address) public domains;
     mapping(string => string) public records;
 
+    // 追加: エラー定義
+    error Unauthorized();
+    error AlreadyRegistered();
+    error InvalidName(string name);
+
     constructor(
         string memory _tld
     ) payable ERC721("Ninja Name Service", "NNS") {
         tld = _tld;
+        owner = payable(msg.sender);
         console.log("%s name service deployed", _tld);
         _nextTokenId = 0; // 初期化
+    }
+
+    // onlyOwnerモディファイア
+    modifier onlyOwner() {
+        require(isOwner(), "You aren't the owner");
+        _;
+    }
+
+    // isOwner関数
+    function isOwner() public view returns (bool) {
+        return msg.sender == owner;
+    }
+
+    // withdraw関数
+    function withdraw() public onlyOwner {
+        uint amount = address(this).balance;
+
+        (bool success, ) = msg.sender.call{value: amount}("");
+        require(success, "Failed to withdraw Matic");
     }
 
     // domainの長さにより価格が変わります。
@@ -45,7 +74,8 @@ contract Domains is ERC721URIStorage {
     }
 
     function register(string calldata name) public payable {
-        require(domains[name] == address(0));
+        if (domains[name] != address(0)) revert AlreadyRegistered();
+        if (!valid(name)) revert InvalidName(name);
 
         uint256 _price = price(name);
         require(msg.value >= _price, "Not enough amount paid");
@@ -96,7 +126,25 @@ contract Domains is ERC721URIStorage {
         _setTokenURI(newRecordId, finalTokenUri);
         domains[name] = msg.sender;
 
+        // 追加: namesマッピングに新しいドメイン名を追加
+        names[newRecordId] = name;
+
         _nextTokenId += 1;
+    }
+
+    // 追加: getAllNames関数
+    function getAllNames() public view returns (string[] memory) {
+        string[] memory allNames = new string[](_nextTokenId);
+        for (uint i = 0; i < _nextTokenId; i++) {
+            allNames[i] = names[i];
+        }
+
+        return allNames;
+    }
+
+    // 追加: valid関数
+    function valid(string calldata name) public pure returns (bool) {
+        return strlen(name) >= 3 && strlen(name) <= 10;
     }
 
     // price, getAddress, setRecord, getRecord などのfunction は変更しません。
@@ -107,7 +155,7 @@ contract Domains is ERC721URIStorage {
 
     function setRecord(string calldata name, string calldata record) public {
         // トランザクションの送信者であることを確認しています。
-        require(domains[name] == msg.sender);
+        if (msg.sender != domains[name]) revert Unauthorized();
         records[name] = record;
     }
 
