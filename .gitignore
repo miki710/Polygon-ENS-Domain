@@ -39,11 +39,6 @@ Thumbs.db
 .idea/
 
 # Hardhat Ignition default folder for deployments against a local node
-ignition/deployments/chain-31337
-
-# 追加する不要なファイルやディレクトリ
-4.5.0
-ignition/deployments/chain-80002
-ignition/modules
-ignition/deployments/chain-80002/artifacts
-ignition/deployments/chain-80002/build-info
+ignition/*
+!ignition/modules/
+!ignition/modules/Domain.js
