@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import "./styles/App.css";
 import xLogo from "./assets/x-logo.svg";
 import { ethers } from "ethers";
@@ -33,7 +33,7 @@ const App = () => {
   }
 
   // ウォレットの接続を確認します。
-  const checkIfWalletIsConnected = async () => {
+  const checkIfWalletIsConnected = useCallback(async () => {
     const { ethereum } = window;
 
     if (!ethereum) {
@@ -59,7 +59,7 @@ const App = () => {
 
     ethereum.on('chainChanged', handleChainChanged);
 
-  };
+  }, []);
 
   const mintDomain = async () => {
     // ドメインがnullのときrunしません。
