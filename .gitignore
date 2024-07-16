@@ -1,4 +1,6 @@
 node_modules
+npm-debug.log
+yarn-error.log
 .env
 
 # Hardhat files
@@ -15,3 +17,10 @@ node_modules
 
 # Hardhat Ignition default folder for deployments against a local node
 ignition/deployments/chain-31337
+
+# ビルド出力
+dist/
+build/
+
+# ログファイル
+*.log
