@@ -3,9 +3,6 @@ require("@nomicfoundation/hardhat-ignition"); // 追加
 require("@nomiclabs/hardhat-ethers"); // 追加
 require("dotenv").config(); // dotenvを読み込む
 
-// 環境変数の値をログ出力
-console.log("ALCHEMY_MUMBAI_URL:", process.env.ALCHEMY_MUMBAI_URL);
-console.log("TEST_WALLET_PRIVATE_KEY:", process.env.TEST_WALLET_PRIVATE_KEY);
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
