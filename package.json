@@ -25,5 +25,8 @@
   "dependencies": {
     "@openzeppelin/contracts": "^5.0.2",
     "dotenv": "^16.4.5"
+  },
+  "scripts": {
+    "build": "cd client && npm install && npm run build"
   }
 }
