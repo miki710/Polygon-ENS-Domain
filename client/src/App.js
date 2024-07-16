@@ -420,6 +420,8 @@ const editRecord = (name) => {
         {!currentAccount && renderNotConnectedContainer()}
         {/* アカウントが接続されるとインプットフォームをレンダリングします。 */}
         {currentAccount && renderInputForm()}
+        {/* ミントされたドメインを表示します。 */}
+        {currentAccount && renderMints()}
 
         <div className="footer-container">
           <img alt="X Logo" className="x-logo" src={xLogo} />
