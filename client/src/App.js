@@ -388,7 +388,7 @@ const editRecord = (name) => {
       ethereum.on('chainChanged', handleChainChanged);
       ethereum.request({ method: 'eth_chainId' }).then(handleChainChanged);
     }
-  }, []);
+  }, [checkIfWalletIsConnected]);
 
   useEffect(() => {
     console.log("Current Account:", currentAccount);
