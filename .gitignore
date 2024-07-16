@@ -41,4 +41,4 @@ Thumbs.db
 # Hardhat Ignition default folder for deployments against a local node
 ignition/*
 !ignition/modules/
-!ignition/modules/Domain.js
+!ignition/modules/Domains.js
