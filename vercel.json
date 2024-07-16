@@ -1,0 +1,15 @@
+{
+    "builds": [
+      {
+        "src": "client/package.json",
+        "use": "@vercel/static-build",
+        "config": {
+          "distDir": "client/build"
+        }
+      }
+    ],
+    "rewrites": [
+      { "source": "/(.*)", "destination": "/index.html" }
+    ],
+    "installCommand": "npm install --legacy-peer-deps"
+  }

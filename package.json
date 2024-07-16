@@ -27,6 +27,6 @@
     "dotenv": "^16.4.5"
   },
   "scripts": {
-    "build": "cd client && npm install && npm run build"
+    "build": "cd client && npm install --legacy-peer-deps && npm run build"
   }
 }
