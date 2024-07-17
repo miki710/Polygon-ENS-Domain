@@ -1,4 +1,15 @@
 {
+  "name": "my-monorepo",
+  "private": true,
+  "workspaces": [
+    "client",
+    "contract"
+  ],
+  "scripts": {
+    "start": "cd client && npm start",
+    "test": "cd contracts && npx hardhat test",
+    "build": "cd client && npm install --legacy-peer-deps && npm run build"
+  },
   "devDependencies": {
     "@nomicfoundation/hardhat-chai-matchers": "^1.0.0",
     "@nomicfoundation/hardhat-ethers": "^3.0.0",
@@ -25,8 +36,5 @@
   "dependencies": {
     "@openzeppelin/contracts": "^5.0.2",
     "dotenv": "^16.4.5"
-  },
-  "scripts": {
-    "build": "cd client && npm install --legacy-peer-deps && npm run build"
   }
 }

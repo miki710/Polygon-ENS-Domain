@@ -1,0 +1,11 @@
+{
+    "name": "contract",
+    "version": "1.0.0",
+    "private": true,
+    "devDependencies": {
+      "hardhat": "^2.6.0"
+    },
+    "scripts": {
+      "test": "npx hardhat test"
+    }
+  }
